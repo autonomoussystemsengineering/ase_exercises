@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="line_following_node" pkg="exercise" type="line_following_node" output="screen" respawn="true">
+    <param name="amiro_id" value="1"/>
+    <param name="vel_x" value="0.07"/>
+    <param name="kp" value="2.1"/>
+    <param name="ki" value="0.2"/>
+    <param name="kd" value="5"/>
+    <param name="LINE_THRESH_BLACK" value="10000"/>
+    <param name="LINE_THRESH_BLACK" value="7500"/>
+  </node>
+</launch>

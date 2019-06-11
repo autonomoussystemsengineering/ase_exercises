@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="amiro_id" default="5"/>
+
+  <node name="line_following_node" pkg="exercise" type="line_following_node" output="screen" respawn="true">
+    <param name="amiro_id" value="$(arg amiro_id)"/>
+    <param name="vel_x" value="0.07"/>
+    <param name="kp" value="2"/>
+    <param name="ki" value="0.1"/>
+    <param name="kd" value="5"/>
+    <param name="LINE_THRESH_BLACK" value="8000"/>
+    <param name="LINE_THRESH_BLACK" value="8000"/>
+  </node>
+
+  <node name="rst_value_array_to_ros_int_array" pkg="rsb_to_ros_bridge" type="rst_value_array_to_ros_int_array" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
+    <param name="rsb_listener_scope" value="/amiro$(arg amiro_id)/prox/floor"/>
+    <param name="ros_publish_topic" value="/amiro$(arg amiro_id)/proximity_floor/values"/>
+    <param name="rostimenow" value="false"/>
+  </node>
+
+  <node name="Navstack_controll_bridge$(arg amiro_id)" pkg="ros_to_rsb_bridge" type="ros_geometry_msgs_twist_to_rst_value_array" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
+    <param name="ros_listener_topic" value="/amiro$(arg amiro_id)/cmd_vel"/>
+    <param name="rsb_publish_scope" value="/amiro$(arg amiro_id)/motor/10"/>
+  </node>
+
+</launch>
