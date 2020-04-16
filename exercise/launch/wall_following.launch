@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- These are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gz_gui" default="false"/>
+  <arg name="gz_headless" default="false"/>
+  <arg name="gz_debug" default="false"/>
+  <arg name="gz_verbose" default="true"/>
+  <arg name="gz_update_rate" default="50.0"/> <!--Update rate for tfs and gazebo plugins-->
+
+  <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find exercise)/worlds/wall.world"/>
+    <arg name="debug" value="$(arg gz_debug)" />
+    <arg name="gui" value="$(arg gz_gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg gz_headless)"/>
+    <arg name="verbose" value="$(arg gz_verbose)"/>
+  </include>
+  
+  <!-- Load the AMiRo+Laser with namespace amiro1 -->
+  <include file="$(find amiro_description)/launch/amiro.launch" clear_params="true" ns="amiro1">
+    <arg name="robot_name" value="amiro1" />
+    <arg name="robot_position" value="-x 0 -y 0 -z 0.1" />
+    <arg name="update_rate" value="$(arg gz_update_rate)" />
+    <arg name="use_gazebo" value="true"/>
+    <arg name="robot_model" value="amiro_hokuyo.xacro" />
+  </include>
+
+  <!-- Start rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find exercise)/rviz/mapping_with_known_poses.rviz" respawn="true" />
+
+  <!-- Start mapping -->
+  <node name="wall_following" pkg="exercise" type="wall_following" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
+    <param name="ros_listener_topic" value="/amiro1/laser"/>
+    <param name="ros_publisher_topic" value="/amiro1/cmd_vel"/>
+    <param name="dimension_x" value="10.2"/>
+    <param name="dimension_y" value="24.5"/>
+    <param name="max_reading_range" value="4.7" />
+  </node>
+
+</launch>
