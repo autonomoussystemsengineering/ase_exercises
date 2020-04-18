@@ -39,7 +39,7 @@
   </include>
 
   <!-- Enable the line following for this exercise  -->
-  <include file="$(find exercise)/launch/line_following.launch" clear_params="true" ns="amiro1">
+  <include file="$(find exercise)/launch/line_following_gazebo_amiro.launch" clear_params="true" ns="amiro1">
   </include>
 
   <!-- Enbale the beacon navigation state machine -->
