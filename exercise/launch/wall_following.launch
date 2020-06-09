@@ -4,11 +4,12 @@
   <!-- These are the arguments you can pass this launch file, for example paused:=true -->
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
-  <arg name="gz_gui" default="false"/>
+  <arg name="gz_gui" default="true"/>
   <arg name="gz_headless" default="false"/>
   <arg name="gz_debug" default="false"/>
   <arg name="gz_verbose" default="true"/>
   <arg name="gz_update_rate" default="50.0"/> <!--Update rate for tfs and gazebo plugins-->
+  <arg name="rviz" default="false"/>
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -31,7 +32,7 @@
   </include>
 
   <!-- Start rviz -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find exercise)/rviz/mapping_with_known_poses.rviz" respawn="true" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find exercise)/rviz/mapping_with_known_poses.rviz" if="$(arg rviz)" />
 
   <!-- Start mapping -->
   <node name="wall_following" pkg="exercise" type="wall_following" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
