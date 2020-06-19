@@ -148,6 +148,7 @@ void process(const sensor_msgs::LaserScan::ConstPtr &scan, const nav_msgs::Odome
   ROS_INFO_STREAM("time for map update: " << msdiff.total_milliseconds() << "ms");
   if (!(++iterator % mapEvaluationIter)) {
     ROS_INFO("-- Publish map --");
+    ogm.header.stamp = scan->header.stamp;
     showMap();
   }
 

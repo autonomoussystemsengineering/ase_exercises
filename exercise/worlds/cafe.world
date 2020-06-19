@@ -305,10 +305,10 @@
       <pose frame=''>0.684904 0.475014 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>292 482000000</sim_time>
-      <real_time>294 805911259</real_time>
+      <sim_time>0 0</sim_time>
+      <real_time>0 0</real_time>
       <wall_time>1530781466 206194534</wall_time>
-      <iterations>292482</iterations>
+      <iterations>0</iterations>
       <model name='cafe'>
         <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
